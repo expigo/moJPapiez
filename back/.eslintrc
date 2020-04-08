@@ -6,9 +6,10 @@
   "extends": [
     "eslint:recommended",
     "eslint-config-prettier",
-    "plugin:node/recommended"
+    "plugin:node/recommended",
+    "plugin:jest/recommended"
   ],
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "jest"],
   "rules": {
     "prettier/prettier": [
       "error",
