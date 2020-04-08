@@ -3,8 +3,12 @@
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
-  "extends": ["eslint:recommended", "eslint-config-prettier"],
-  "plugins": ["eslint-plugin-prettier"],
+  "extends": [
+    "eslint:recommended",
+    "eslint-config-prettier",
+    "plugin:node/recommended"
+  ],
+  "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": [
       "error",
@@ -12,7 +16,15 @@
         "endOfLine": "lf"
       }
     ],
-    "strict": ["error", "never"]
+    "strict": ["error", "never"],
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "req|res|next|val"
+      }
+    ],
+    "no-console": "warn",
+    "eqeqeq": "warn"
   },
   "env": {
     "node": true
