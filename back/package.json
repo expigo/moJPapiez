@@ -1,0 +1,38 @@
+{
+  "name": "mojpapiez",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src --out-dir dist",
+    "lint": "eslint . --ignore-path .gitignore --fix",
+    "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
+    "format": "npm run prettier -- --write",
+    "check-format": "npm run prettier -- --list-different",
+    "validate": "npm-run-all --parallel format lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expigo/moJPapiez.git"
+  },
+  "author": "Kryspin Musiol",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/expigo/moJPapiez/issues"
+  },
+  "homepage": "https://github.com/expigo/moJPapiez#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.1.2",
+    "prettier": "^2.0.4"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}
