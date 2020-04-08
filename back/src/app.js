@@ -1,11 +1,19 @@
-console.log('Here I am, this is meee...🐱‍👓🐱‍👓🐱‍👓')
+const express = require('express')
+const morgan = require('morgan')
+const config = require('./config/index')
 
-const halo = ''
+const statueRouter = require('./resources/statue/statue.router')
 
-halo == ' '
+const app = express()
 
-function asd() {
-  if (halo) return true
+app.disable('x-powered-by')
+
+if (config.env == 'development') {
+  app.use(morgan('dev'))
 }
 
-asd()
+app.use(express.json())
+
+app.use('/statue', statueRouter)
+
+module.exports = app

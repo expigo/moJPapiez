@@ -50,5 +50,13 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ]
+  },
+  "dependencies": {
+    "cuid": "^2.1.8",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "lodash.map": "^4.6.0",
+    "mongoose": "^5.9.7",
+    "morgan": "^1.10.0"
   }
 }
