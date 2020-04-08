@@ -25,7 +25,8 @@
       }
     ],
     "no-console": "warn",
-    "eqeqeq": "warn"
+    "eqeqeq": "warn",
+    "no-process-exit": "off"
   },
   "env": {
     "node": true

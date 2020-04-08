@@ -9,8 +9,7 @@ exports.connect = (url = config.dbUrl, additionalOptions = {}) => {
       useCreateIndex: true,
       ...additionalOptions,
     })
-    .then(() => {
-      console.log('connected!')
+    .then(conn => {
+      console.log('DB connection successful! user: ', conn.connection.user)
     })
-    .catch(err => console.error(err))
 }
