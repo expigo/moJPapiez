@@ -1,4 +1,4 @@
-const Statue = require('./statue.model')
+const Statue = require('./monument.model')
 
 exports.getStatue = async (req, res, next) => {
   try {

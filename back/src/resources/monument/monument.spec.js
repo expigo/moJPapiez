@@ -1,4 +1,4 @@
-const statueController = require('./statue.controller')
+const statueController = require('./monument.controller')
 
 describe('Sample Test', () => {
   it('should test that true === true', () => {

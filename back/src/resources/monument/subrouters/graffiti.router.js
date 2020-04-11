@@ -1,5 +1,5 @@
 const {Router} = require('express')
-const controller = require('./statue.controller')
+const controller = require('../monument.controller')
 
 const router = Router()
 

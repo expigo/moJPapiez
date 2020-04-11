@@ -2,7 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const config = require('./config/index')
 
-const statueRouter = require('./resources/statue/statue.router')
+const monumentRouter = require('./resources/monument/monument.router')
 
 const app = express()
 
@@ -14,6 +14,6 @@ if (config.env == 'development') {
 
 app.use(express.json())
 
-app.use('/statue', statueRouter)
+app.use('/monument', monumentRouter)
 
 module.exports = app
