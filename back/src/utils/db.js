@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const config = require('../config')
 
+console.log(config.dbUrl)
+
 exports.connect = (url = config.dbUrl, additionalOptions = {}) => {
   return mongoose
     .connect(url, {
@@ -10,6 +12,9 @@ exports.connect = (url = config.dbUrl, additionalOptions = {}) => {
       ...additionalOptions,
     })
     .then(conn => {
-      console.log('DB connection successful! user: ', conn.connection.user)
+      console.log(
+        'DB connection successful! user: ',
+        conn.connection.user || 'local'
+      )
     })
 }
