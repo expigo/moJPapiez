@@ -1,40 +1,87 @@
-const Statue = require('./monument.model')
+const Monument = require('./monument.model')
 
-exports.getStatue = async (req, res, next) => {
+exports.getMonument = async (req, res, next) => {
   try {
-    const user = await Statue.create({...req.body})
+    const {id, type} = req.params
 
-    res.status(201).json({
-      status: 'fail',
+    const monument = await Monument.find({_id: id, category: type}).exec()
+
+    res.status(200).json({
+      status: 'success',
       data: {
-        user,
+        monument,
       },
     })
   } catch (e) {
     console.error(e)
   }
 }
-exports.getAllStatues = (req, res, next) => {
-  res.status(501).json({
-    status: 'fail',
-    message: 'Functionality not implemented yet',
+
+exports.getAllMonuments = async (req, res, next) => {
+  try {
+    const all = await Monument.find().exec()
+    res.status(200).json({
+      status: 'success',
+      data: {
+        all,
+      },
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+exports.createMonument = async (req, res, next) => {
+  try {
+    const monument = await Monument.create({...req.body})
+    res.status(201).json({
+      status: 'success',
+      data: {
+        monument,
+      },
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+exports.updateMonument = async (req, res, next) => {
+  console.log(req.params.type)
+  const monument = await Monument.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  }).exec()
+
+  if (!monument) {
+    throw new Error('no monument found')
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      monument,
+    },
   })
 }
-exports.createStatue = (req, res, next) => {
-  res.status(501).json({
-    status: 'fail',
-    message: 'Functionality not implemented yet',
+exports.deleteMonument = async (req, res, next) => {
+  const monument = await Monument.findByIdAndDelete(req.params.id).exec()
+
+  if (!monument) {
+    throw new Error('no monument found')
+  }
+  res.status(204).json({
+    status: 'success',
+    data: null,
   })
 }
-exports.updateStatue = (req, res, next) => {
-  res.status(501).json({
-    status: 'fail',
-    message: 'Functionality not implemented yet',
+
+exports.getAllByType = async (req, res, next) => {
+  const monuments = await Monument.find({
+    category: req.params.type.toLowerCase(),
   })
-}
-exports.deleteStatue = (req, res, next) => {
-  res.status(501).json({
-    status: 'fail',
-    message: 'Functionality not implemented yet',
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      monuments,
+    },
   })
 }

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const cuid = require('cuid')
 const map = require('lodash.map')
 // load model since the express server won't get instantiated for testing
-require('./src/resources/statue/statue.model')
+require('./src/resources/monument/monument.model')
 require('./src/resources/user/user.model')
 const {connect} = require('./src/utils/db')
 

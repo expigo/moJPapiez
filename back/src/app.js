@@ -14,6 +14,6 @@ if (config.env == 'development') {
 
 app.use(express.json())
 
-app.use('/monument', monumentRouter)
+app.use('/api/v1/monuments', monumentRouter)
 
 module.exports = app

@@ -57,6 +57,7 @@
     "express": "^4.17.1",
     "lodash.map": "^4.6.0",
     "mongoose": "^5.9.7",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "validator": "^13.0.0"
   }
 }
