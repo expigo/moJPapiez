@@ -7,6 +7,7 @@ const morgan = require('morgan')
 const config = require('./config/index')
 const AppError = require('./utils/AppError')
 const monumentRouter = require('./resources/monument/monument.router')
+const userRouter = require('./resources/user/user.router')
 const errorFrontController = require('./utils/errorFrontController')
 
 const app = express()
@@ -20,6 +21,7 @@ if (config.env == 'development') {
 app.use(express.json())
 
 app.use('/api/v1/monuments', monumentRouter)
+app.use('/api/v1/users', userRouter)
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Woah, missing something? 🤷‍♀️ [${req.originalUrl}]`))

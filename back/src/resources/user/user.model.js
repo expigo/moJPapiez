@@ -4,14 +4,22 @@ const validator = require('validator')
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    unique: true,
+    trim: true,
+    required: 'Please supply a name',
   },
   email: {
     type: String,
-    required: [true, 'Please provide an email'],
+    required: 'Please supply an email address',
     uniue: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Email not valid'],
+    trim: true,
+    validate: [validator.isEmail, 'Invalid email address!'],
+  },
+  photo: String,
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user',
   },
 })
 

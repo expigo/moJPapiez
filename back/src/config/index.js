@@ -1,4 +1,4 @@
-const env = process.env.NODE_ENV || 'production'
+const env = process.env.NODE_ENV || 'development'
 const port = process.env.port || 2137
 
 const baseConfig = {
