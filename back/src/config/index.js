@@ -4,6 +4,10 @@ const port = process.env.port || 2137
 const baseConfig = {
   env,
   port,
+  secrets: {
+    jwt: process.env.JWT_SECRET,
+    jwtExp: process.env.JWT_EXPIRES_IN || '100d',
+  },
 }
 
 let envConfig = {}

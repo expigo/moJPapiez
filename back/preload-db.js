@@ -8,9 +8,10 @@ const User = require('./src/resources/user/user.model')
 const url =
   process.env.MONGODB_URI ||
   process.env.DB_URL ||
-  `mongodb://localhost:27017/moJPapiez-test`
+  `mongodb://localhost:27017/moJPapiez`
 
 const preload = async () => {
+  await mongoose.connection.dropDatabase()
   for (let i = 0; i < 3; i++) {
     await Monument.create({
       name: `Monument${i}`,
@@ -25,6 +26,8 @@ const preload = async () => {
     await User.create({
       name: `name${i}`,
       email: `halo${i}@hi.com`,
+      password: `p4ssw0rd${i}`,
+      passwordConfirm: `p4ssw0rd${i}`,
     })
   }
 

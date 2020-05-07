@@ -9,7 +9,6 @@ process.on('uncaughtException', err => {
   console.log(err.name, err.message)
   process.exit(1)
 })
-console.log(config)
 const server = app.listen(config.port, async () => {
   await connect()
   console.log(`I await your orders on port ${config.port}, Captain`)

@@ -24,7 +24,11 @@ app.use('/api/v1/monuments', monumentRouter)
 app.use('/api/v1/users', userRouter)
 
 app.all('*', (req, res, next) => {
-  next(new AppError(`Woah, missing something? 🤷‍♀️ [${req.originalUrl}]`))
+  next(
+    new AppError(
+      `Woah, missing something (route handler maybe)? 🤷‍♀️ [${req.originalUrl}]`
+    )
+  )
 })
 
 app.use(errorFrontController)
