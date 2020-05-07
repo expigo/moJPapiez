@@ -30,7 +30,7 @@ exports.signin = catchAsync(async (req, res, next) => {
     return next(new AppError('Please provide email and password'), 400)
   }
 
-  const user = await User.findOne({email}).select('+password')
+  const user = await User.findOne({email}).select('+password').exec()
 
   if (!user || !(await user.checkPassword(password, user.password))) {
     return next(new AppError('Invalid email and password combination', 401))
@@ -38,6 +38,38 @@ exports.signin = catchAsync(async (req, res, next) => {
 
   createAndSendToken(user, 200, res)
 })
+
+exports.protect = catchAsync(async (req, res, next) => {
+  const bearer = req.headers.authorization
+  if (bearer && bearer.startsWith('Bearer ')) {
+    var token = bearer.split(' ')[1].trim()
+  }
+
+  if (!token) return next(new AppError('You are not logged in!', 401))
+
+  const payload = await verifyToken(token)
+
+  const user = await User.findById(payload.id).exec()
+
+  if (!user) {
+    return next(
+      new AppError('User associated with this token does no longer exist', 401)
+    )
+  }
+
+  req.user = user
+
+  next()
+})
+
+exports.restrictTo = (...roles) => (req, res, next) => {
+  if (!roles.includes(req.user.role))
+    return next(
+      new AppError('You do not have permissions to perform this action', 403)
+    )
+
+  next()
+}
 
 // *****************
 
@@ -53,5 +85,14 @@ function createAndSendToken(user, statusCode, res) {
 function signToken(id) {
   return jwt.sign({id}, config.secrets.jwt, {
     expiresIn: config.secrets.jwtExp,
+  })
+}
+
+async function verifyToken(token) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, config.secrets.jwt, (err, payload) => {
+      if (err) return reject(err)
+      resolve(payload)
+    })
   })
 }

@@ -1,5 +1,6 @@
 const Monument = require('./monument.model')
 const catchAsync = require('../../utils/catchAsync')
+const AppError = require('../../utils/AppError')
 
 exports.getMonument = catchAsync(async (req, res, next) => {
   const {id, type} = req.params
@@ -40,7 +41,9 @@ exports.updateMonument = catchAsync(async (req, res, next) => {
   }).exec()
 
   if (!monument) {
-    throw new Error('no monument found')
+    return next(
+      new AppError(`no monument found with id: ${req.params.id}`, 404)
+    )
   }
 
   res.status(200).json({
@@ -51,12 +54,20 @@ exports.updateMonument = catchAsync(async (req, res, next) => {
   })
 })
 exports.deleteMonument = catchAsync(async (req, res, next) => {
+  if (!req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    return next(
+      new AppError(`no monument found with id: ${req.params.id}`, 404)
+    )
+  }
   const monument = await Monument.findByIdAndDelete(req.params.id).exec()
 
   if (!monument) {
-    throw new Error('no monument found')
+    return next(
+      new AppError(`no monument found with id: ${req.params.id}`, 404)
+    )
   }
   res.status(204).json({
+    // well with 204 the body won't be sent anyway...
     status: 'success',
     data: null,
   })
