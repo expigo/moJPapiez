@@ -1,5 +1,5 @@
 require('dotenv').config({
-  path: `${__dirname}/.env`,
+  path: `${__dirname}/.env.test`,
 })
 
 const express = require('express')

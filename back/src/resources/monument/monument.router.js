@@ -12,7 +12,7 @@ router
 router.route('/:type').get(controller.getAllByType)
 
 router
-  .route('/:type?/:id')
+  .route('/:id')
   .get(controller.getMonument)
   .patch(controller.updateMonument)
   .delete(auth.protect, auth.restrictTo('admin'), controller.deleteMonument)
