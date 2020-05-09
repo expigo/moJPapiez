@@ -7,6 +7,7 @@ const baseConfig = {
   secrets: {
     jwt: process.env.JWT_SECRET,
     jwtExp: process.env.JWT_EXPIRES_IN || '100d',
+    jwtCookieExpIn: process.env.JWT_COOKIE_EXPIRES_IN || '100',
   },
 }
 
