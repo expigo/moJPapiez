@@ -17,9 +17,7 @@ exports.getMonument = catchAsync(async (req, res, next) => {
 })
 
 exports.getAllMonuments = catchAsync(async (req, res, next) => {
-  // const all = await Monument.find().exec()
-
-  const query = new QueryBuilder(Monument.find(), req.params)
+  const query = new QueryBuilder(Monument.find(), req.query)
     .sanitize()
     .sort()
     .limitFields()
@@ -99,6 +97,14 @@ exports.getAllByType = catchAsync(async (req, res, next) => {
 
 exports.limitTo = x => (req, res, next) => {
   req.query.limit = x
+
+  next()
+}
+
+exports.topXMonuments = x => (req, res, next) => {
+  req.query.limit = x
+  req.query.sort = '-ratingsAverage'
+  req.query.fields = 'name, ratingsAverage, category, ratingsQuantity'
 
   next()
 }

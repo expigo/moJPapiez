@@ -5,6 +5,10 @@ const auth = require('../../utils/auth')
 const router = Router()
 
 router
+  .route('/top')
+  .get(controller.topXMonuments(1), controller.getAllMonuments)
+
+router
   .route('/')
   .get(controller.getAllMonuments)
   .post(auth.protect, controller.createMonument)

@@ -29,6 +29,11 @@ const monumentSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+      select: false,
+    },
     ratingsAverage: {
       type: Number,
       default: 5,

@@ -2,15 +2,10 @@ module.exports = class {
   constructor(query, queryString) {
     this.query = query
     this.queryString = queryString
-    // console.group('queryBuilder')
-    // console.log(this.query)
-    // console.log(this.queryString)
-    // console.groupEnd('queryBuilder')
   }
 
   sanitize() {
     if (Object.keys(this.queryString).length != 0) {
-      console.log('yo')
       const queryObj = {...this.queryString}
       const excludeFields = ['fields', 'limit', 'page', 'sort']
       excludeFields.forEach(f => delete queryObj[f])
@@ -44,7 +39,6 @@ module.exports = class {
 
     this.query = this.query.skip(skip).limit(+limit)
 
-    // console.log('paginiate', this.query)
     return this
   }
 
@@ -61,7 +55,6 @@ module.exports = class {
   }
 
   build() {
-    // console.log(this.query)
     return this.query
   }
 }
