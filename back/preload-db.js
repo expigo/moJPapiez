@@ -21,6 +21,7 @@ const preload = async () => {
           : Math.random() < 2 / 3
           ? 'graffiti'
           : 'painting',
+      ratingsAverage: getRandomInt(1, 10),
     })
 
     await User.create({
@@ -46,3 +47,11 @@ process.on('unhandledRejection', err => {
   console.log(err.name, err.message)
   process.exit(1)
 })
+
+// ******
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min)) + min
+}

@@ -1,14 +1,14 @@
 const mongoose = require('mongoose')
 
-const statueSchema = new mongoose.Schema(
+const monumentSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'A statue must have a name'],
+      required: [true, 'A monument must have a name'],
       unique: true,
       trim: true,
-      minlength: [5, 'A statue name must have at least 5 characters.'],
-      maxlength: [50, 'A statue name must have at most 50 characters.'],
+      minlength: [5, 'A monument name must have at least 5 characters.'],
+      maxlength: [50, 'A monument name must have at most 50 characters.'],
     },
     slug: String,
     category: {
@@ -22,12 +22,22 @@ const statueSchema = new mongoose.Schema(
     },
     imageCover: {
       type: String,
-      // required: [true, 'A statue must have an image'],
+      // required: [true, 'A monument must have an image'],
     },
     images: [String],
     description: {
       type: String,
       trim: true,
+    },
+    ratingsAverage: {
+      type: Number,
+      default: 5,
+      min: [1, 'Rating must be above or equal 1'],
+      max: [10, 'Rating must be below or equal 10'],
+    },
+    ratingsQuantity: {
+      type: Number,
+      defult: 0,
     },
   },
   {
@@ -36,9 +46,14 @@ const statueSchema = new mongoose.Schema(
   }
 )
 
-statueSchema.virtual('difficulty').get(function () {})
-statueSchema.virtual('ratingsAverage').get(function () {})
+// monumentSchema.virtual('difficulty').get(function () {})
+// monumentSchema
+//   .virtual('ratingsAverage')
+//   .get(function () {})
+//   .set(function (x) {
+//     this.set({x})
+//   })
 
-const Statue = mongoose.model('statue', statueSchema)
+const Monument = mongoose.model('monument', monumentSchema)
 
-module.exports = Statue
+module.exports = Monument

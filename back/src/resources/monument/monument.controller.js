@@ -1,6 +1,7 @@
 const Monument = require('./monument.model')
 const catchAsync = require('../../utils/catchAsync')
 const AppError = require('../../utils/AppError')
+const QueryBuilder = require('../../utils/queryBuilder')
 
 exports.getMonument = catchAsync(async (req, res, next) => {
   const {id, type} = req.params
@@ -16,11 +17,21 @@ exports.getMonument = catchAsync(async (req, res, next) => {
 })
 
 exports.getAllMonuments = catchAsync(async (req, res, next) => {
-  const all = await Monument.find().exec()
+  // const all = await Monument.find().exec()
+
+  const query = new QueryBuilder(Monument.find(), req.params)
+    .sanitize()
+    .sort()
+    .limitFields()
+    .paginate()
+    .build()
+
+  const monuments = await query.exec()
+
   res.status(200).json({
     status: 'success',
     data: {
-      all,
+      monuments,
     },
   })
 })
@@ -85,3 +96,9 @@ exports.getAllByType = catchAsync(async (req, res, next) => {
     },
   })
 })
+
+exports.limitTo = x => (req, res, next) => {
+  req.query.limit = x
+
+  next()
+}
