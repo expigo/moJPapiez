@@ -8,6 +8,8 @@ router
   .route('/top')
   .get(controller.topXMonuments(1), controller.getAllMonuments)
 
+router.get('/stats', controller.getMonumentsStats)
+
 router
   .route('/')
   .get(controller.getAllMonuments)

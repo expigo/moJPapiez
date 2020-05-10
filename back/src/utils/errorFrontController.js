@@ -13,7 +13,7 @@ const sendErrorDev = (err, res) => {
   }
 
   res.format({
-    'application/json': () => res.json(errorDetails),
+    'application/json': () => res.status(err.statusCode).json(errorDetails),
   })
 }
 

@@ -108,3 +108,38 @@ exports.topXMonuments = x => (req, res, next) => {
 
   next()
 }
+
+exports.getMonumentsStats = catchAsync(async (req, res, next) => {
+  const stats = await Monument.aggregate([
+    {
+      $match: {ratingsAverage: {$gte: 3}},
+    },
+    {
+      $group: {
+        _id: {$toUpper: '$category'},
+        quantity: {$sum: 1},
+        visitorsTotal: {$sum: '$ratingsQuantity'},
+        avgRating: {$avg: '$ratingsAverage'},
+        max: {$max: '$ratingsAverage'},
+      },
+    },
+    {
+      $lookup: {
+        from: 'monuments',
+        localField: 'max',
+        foreignField: 'ratingsAverage',
+        as: 'Best',
+      },
+    },
+    {
+      $sort: {visitorsTotal: 1},
+    },
+  ])
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      stats,
+    },
+  })
+})

@@ -12,7 +12,7 @@ const url =
 
 const preload = async () => {
   await mongoose.connection.dropDatabase()
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 8; i++) {
     await Monument.create({
       name: `Monument${i}`,
       category:
@@ -22,6 +22,7 @@ const preload = async () => {
           ? 'graffiti'
           : 'painting',
       ratingsAverage: getRandomInt(1, 10),
+      ratingsQuantity: getRandomInt(1, 100),
     })
 
     await User.create({

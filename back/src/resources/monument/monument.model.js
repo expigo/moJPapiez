@@ -42,7 +42,7 @@ const monumentSchema = new mongoose.Schema(
     },
     ratingsQuantity: {
       type: Number,
-      defult: 0,
+      default: 1,
     },
   },
   {
