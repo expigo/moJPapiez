@@ -1,9 +1,11 @@
 const {Router} = require('express')
 const controller = require('./monument.controller')
 const auth = require('../../utils/auth')
+const reviewRouter = require('../review/review.router')
 
 const router = Router()
 
+router.use('/:monumentId/reviews', reviewRouter)
 router
   .route('/top')
   .get(controller.topXMonuments(1), controller.getAllMonuments)
