@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const slugify = require('slugify')
 
 const monumentSchema = new mongoose.Schema(
   {
@@ -58,6 +59,17 @@ const monumentSchema = new mongoose.Schema(
 //   .set(function (x) {
 //     this.set({x})
 //   })
+
+monumentSchema.virtual('reviews', {
+  ref: 'review',
+  foreignField: 'monument',
+  localField: '_id',
+})
+
+monumentSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, {lower: true})
+  next()
+})
 
 const Monument = mongoose.model('monument', monumentSchema)
 

@@ -14,6 +14,7 @@ const config = require('./config/index')
 const AppError = require('./utils/AppError')
 const monumentRouter = require('./resources/monument/monument.router')
 const userRouter = require('./resources/user/user.router')
+const reviewRouter = require('./resources/review/review.router')
 const errorFrontController = require('./utils/errorFrontController')
 
 const app = express()
@@ -48,6 +49,7 @@ app.use(
 app.use('/api', limiter)
 app.use('/api/v1/monuments', monumentRouter)
 app.use('/api/v1/users', userRouter)
+app.use('/api/v1/reviews', reviewRouter)
 
 app.all('*', (req, res, next) => {
   next(

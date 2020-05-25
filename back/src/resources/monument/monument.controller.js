@@ -4,9 +4,14 @@ const AppError = require('../../utils/AppError')
 const QueryBuilder = require('../../utils/queryBuilder')
 
 exports.getMonument = catchAsync(async (req, res, next) => {
-  const {id, type} = req.params
+  const {id} = req.params
 
-  const monument = await Monument.find({_id: id, category: type}).exec()
+  const monument = await Monument.findById(id)
+    .populate({
+      path: 'reviews',
+      select: '-user -__v ',
+    })
+    .exec()
 
   res.status(200).json({
     status: 'success',

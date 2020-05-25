@@ -8,6 +8,12 @@ router
   .route('/top')
   .get(controller.topXMonuments(1), controller.getAllMonuments)
 
+router
+  .route('/:id')
+  .get(controller.getMonument)
+  .patch(controller.updateMonument)
+  .delete(auth.protect, auth.restrictTo('admin'), controller.deleteMonument)
+
 router.get('/stats', controller.getMonumentsStats)
 
 router
@@ -16,11 +22,5 @@ router
   .post(auth.protect, controller.createMonument)
 
 router.route('/:type').get(controller.getAllByType)
-
-router
-  .route('/:id')
-  .get(controller.getMonument)
-  .patch(controller.updateMonument)
-  .delete(auth.protect, auth.restrictTo('admin'), controller.deleteMonument)
 
 module.exports = router

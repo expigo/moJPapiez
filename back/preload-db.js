@@ -2,6 +2,7 @@ const {connect} = require('./src/utils/db')
 const mongoose = require('mongoose')
 const Monument = require('./src/resources/monument/monument.model')
 const User = require('./src/resources/user/user.model')
+const Review = require('./src/resources/review/review.model')
 
 /*eslint-disable*/
 
@@ -13,7 +14,7 @@ const url =
 const preload = async () => {
   await mongoose.connection.dropDatabase()
   for (let i = 0; i < 8; i++) {
-    await Monument.create({
+    const monId = await Monument.create({
       name: `Monument${i}`,
       category:
         Math.random() < 1 / 3
@@ -25,12 +26,21 @@ const preload = async () => {
       ratingsQuantity: getRandomInt(1, 100),
     })
 
-    await User.create({
+    const uId = await User.create({
       name: `name${i}`,
       email: `halo${i}@hi.com`,
       password: `p4ssw0rd${i}`,
       passwordConfirm: `p4ssw0rd${i}`,
     })
+
+    for (let j = 0; j < getRandomInt(1, 5); j++) {
+      await Review.create({
+        review: `Review [${i}, ${j}]`,
+        rating: getRandomInt(1, 10),
+        monument: monId,
+        user: uId,
+      })
+    }
   }
 
   mongoose.connection.close()
@@ -44,7 +54,6 @@ connect(url)
   })
 
 process.on('unhandledRejection', err => {
-  console.log('UNHANDLED EXCEPTION! Shutting down!!1!ONEONE')
   console.log(err.name, err.message)
   process.exit(1)
 })
