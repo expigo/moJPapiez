@@ -12,6 +12,7 @@ exports.connect = (url = config.dbUrl, additionalOptions = {}) => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
+      useFindAndModify: false,
       ...additionalOptions,
     })
     .then(conn => {
