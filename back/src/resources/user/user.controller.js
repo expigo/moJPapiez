@@ -1,6 +1,13 @@
 const User = require('./user.model')
 const catchAsync = require('../../utils/catchAsync')
 const AppError = require('../../utils/AppError')
+const crud = require('../../utils/crud')
+
+const createUser = crud.createOne(User)
+const getAllUsers = crud.getMany(User)
+const getUser = crud.getOne(User)
+const updateUser = crud.updateOne(User)
+const deleteUser = crud.deleteOne(User)
 
 const deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndRemove(req.user.id, {active: false})
@@ -35,39 +42,28 @@ const updateMe = catchAsync(async (req, res, next) => {
   })
 })
 
-const getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find()
+const getMe = (req, res, next) => {
+  req.params.id = req.user.id
+  next()
+}
 
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: {
-      users,
-    },
-  })
-})
-
-const getUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user.id)
-
-  if (!user) {
-    return next(new AppError(`No user found with ID: ${req.user.id}`, 404))
-  }
-  res.status(200).json({
-    status: 'success',
-    data: {
-      data: user,
-    },
-  })
-})
-
-module.exports = {getAllUsers, deleteMe, updateMe, getUser}
+module.exports = {
+  createUser,
+  getAllUsers,
+  deleteMe,
+  updateMe,
+  getUser,
+  getMe,
+  deleteUser,
+  updateUser,
+}
 
 // **********
 
 function filterOut(prohibitedFields) {
   prohibitedFields =
     prohibitedFields instanceof Array ? prohibitedFields : [prohibitedFields]
+  /* eslint-disable-next-line */
   return function filterFieldsFromObj(obj) {
     return eval(`(({${prohibitedFields.join(',')}, ...o}) => o)(obj)`)
   }

@@ -4,8 +4,6 @@ const authController = require('../../utils/auth')
 
 const router = Router()
 
-router.get('/me', authController.protect, controller.getUser)
-
 router.post('/signup', authController.signup)
 router.post('/signin', authController.signin)
 
@@ -18,11 +16,17 @@ router.patch(
   authController.updatePassword
 )
 
-router.route('/').get(controller.getAllUsers)
-
 router.use(authController.protect)
-
+router.get('/me', controller.getMe, controller.getUser)
 router.delete('/deleteMe', controller.deleteMe)
 router.patch('/updateMe', controller.updateMe)
+
+router.use(authController.restrictTo('admin'))
+router.route('/').get(controller.getAllUsers).delete(controller.createUser)
+router
+  .route('/:id')
+  .get(controller.getUser)
+  .patch(controller.updateUser)
+  .delete(controller.deleteUser)
 
 module.exports = router

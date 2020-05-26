@@ -6,9 +6,12 @@ const reviewRouter = require('../review/review.router')
 const router = Router()
 
 router.use('/:monumentId/reviews', reviewRouter)
+
 router
   .route('/top')
   .get(controller.topXMonuments(1), controller.getAllMonuments)
+
+router.get('/stats', controller.getMonumentsStats)
 
 router
   .route('/:id')
@@ -16,13 +19,11 @@ router
   .patch(controller.updateMonument)
   .delete(auth.protect, auth.restrictTo('admin'), controller.deleteMonument)
 
-router.get('/stats', controller.getMonumentsStats)
-
 router
   .route('/')
   .get(controller.getAllMonuments)
   .post(auth.protect, controller.createMonument)
 
-router.route('/:type').get(controller.getAllByType)
+router.route('/type/:type').get(controller.getAllByType)
 
 module.exports = router
