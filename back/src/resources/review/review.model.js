@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Monument = require('../monument/monument.model')
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -43,6 +44,42 @@ reviewSchema.pre(/^find/, function (next) {
   })
 
   next()
+})
+
+reviewSchema.statics.calcAvgRatings = async function (monument) {
+  const result = await this.aggregate([
+    {
+      $match: {monument},
+    },
+    {
+      $group: {
+        _id: '$monument',
+        nRating: {$sum: 1},
+        avgRating: {$avg: '$rating'},
+      },
+    },
+  ])
+
+  if (result.length > 0) {
+    await Monument.findByIdAndUpdate(monument, {
+      ratingsQuantity: result[0].nRating,
+      ratingsAverage: result[0].avgRating,
+    })
+  } else {
+    await Monument.findByIdAndUpdate(monument, {
+      ratingsQuantity: 0,
+      ratingsAverage: 5,
+    })
+  }
+}
+
+reviewSchema.post('save', function () {
+  this.constructor.calcAvgRatings(this.monument)
+})
+
+reviewSchema.post(/^findOneAnd/, async function () {
+  const r = await this.findOne()
+  await this.r.constructor.calcAvgRatings(r)
 })
 
 const Review = mongoose.model('review', reviewSchema)
