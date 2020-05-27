@@ -17,16 +17,16 @@ router.patch(
 )
 
 router.use(authController.protect)
-router.get('/me', controller.getMe, controller.getUser)
+router.get('/me', controller.getMe, controller.getOne)
 router.delete('/deleteMe', controller.deleteMe)
 router.patch('/updateMe', controller.updateMe)
 
 router.use(authController.restrictTo('admin'))
-router.route('/').get(controller.getAllUsers).delete(controller.createUser)
+router.route('/').get(controller.getMany).delete(controller.createOne)
 router
   .route('/:id')
-  .get(controller.getUser)
-  .patch(controller.updateUser)
-  .delete(controller.deleteUser)
+  .get(controller.getOne)
+  .patch(controller.updateOne)
+  .delete(controller.deleteOne)
 
 module.exports = router

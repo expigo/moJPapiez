@@ -25,9 +25,9 @@ exports.getOne = (Model, populateOptions) =>
 
 exports.getMany = Model =>
   catchAsync(async (req, res, next) => {
-    // in case of review, getMany callback is a handler for both
-    // get all reviews and get all reviews for specific monument
-    // so we need to prepare the filter
+    // in case of review, getMany callback is a handler
+    // for getting all reviews for specific monument
+    // so we need to prepopulate params with the given monument id
     // TODO: there must a better way... 🤔
     const filter = req.params.monumentId
       ? {monument: req.params.monumentId}
@@ -102,3 +102,14 @@ exports.deleteOne = Model =>
       data: null,
     })
   })
+
+module.exports = {
+  ...exports,
+  factory: Model => ({
+    createOne: this.createOne(Model),
+    getOne: this.getOne(Model),
+    getMany: this.getMany(Model),
+    updateOne: this.updateOne(Model),
+    deleteOne: this.deleteOne(Model),
+  }),
+}

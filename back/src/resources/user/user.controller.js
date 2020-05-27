@@ -3,12 +3,6 @@ const catchAsync = require('../../utils/catchAsync')
 const AppError = require('../../utils/AppError')
 const crud = require('../../utils/crud')
 
-const createUser = crud.createOne(User)
-const getAllUsers = crud.getMany(User)
-const getUser = crud.getOne(User)
-const updateUser = crud.updateOne(User)
-const deleteUser = crud.deleteOne(User)
-
 const deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndRemove(req.user.id, {active: false})
 
@@ -48,14 +42,10 @@ const getMe = (req, res, next) => {
 }
 
 module.exports = {
-  createUser,
-  getAllUsers,
   deleteMe,
   updateMe,
-  getUser,
   getMe,
-  deleteUser,
-  updateUser,
+  ...crud.factory(User),
 }
 
 // **********
