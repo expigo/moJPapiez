@@ -52,13 +52,7 @@ const monumentSchema = new mongoose.Schema(
   }
 )
 
-// monumentSchema.virtual('difficulty').get(function () {})
-// monumentSchema
-//   .virtual('ratingsAverage')
-//   .get(function () {})
-//   .set(function (x) {
-//     this.set({x})
-//   })
+monumentSchema.index({ratingsAverage: 1, ratingsQuantity: 1})
 
 monumentSchema.virtual('reviews', {
   ref: 'review',
