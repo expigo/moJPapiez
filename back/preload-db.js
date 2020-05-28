@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const Monument = require('./src/resources/monument/monument.model')
 const User = require('./src/resources/user/user.model')
 const Review = require('./src/resources/review/review.model')
+const getMonuments = require('./dev-data/monuments-placeholders').getMonuments
+const getUsers = require('./dev-data/users-placeholders').getUser
+const getReviews = require('./dev-data/reviews-placeholders')
 
 /*eslint-disable*/
 
@@ -46,8 +49,20 @@ const preload = async () => {
   mongoose.connection.close()
 }
 
+const preloadv2 = async () => {
+  await mongoose.connection.dropDatabase()
+
+  const [reviews, ratings] = getReviews()
+  const ratMap = calcRatingsStats(ratings)
+  await Monument.create(getMonuments(ratMap))
+  await User.create(getUsers())
+  await Review.create(reviews)
+
+  mongoose.connection.close()
+}
+
 connect(url)
-  .then(preload)
+  .then(preloadv2)
   .catch(e => {
     console.log(e)
     mongoose.connection.close()
@@ -60,8 +75,14 @@ process.on('unhandledRejection', err => {
 
 // ******
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min)
-  max = Math.floor(max)
-  return Math.floor(Math.random() * (max - min)) + min
+function calcRatingsStats(ratings) {
+  var ratMap = new Map()
+  ratings.forEach((v, k, m) => {
+    ratMap.set(k.mid, {
+      sum: v + ((ratMap.get(k.mid) && ratMap.get(k.mid).sum) || 0),
+      n: (ratMap.get(k.mid) && ratMap.get(k.mid).n + 1) || 1,
+    })
+  })
+
+  return ratMap
 }

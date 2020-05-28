@@ -46,6 +46,15 @@ const monumentSchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
+    location: {
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+      },
+      coordinates: [Number],
+      address: String,
+    },
   },
   {
     toJSON: {virtuals: true},
