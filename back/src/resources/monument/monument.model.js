@@ -40,6 +40,7 @@ const monumentSchema = new mongoose.Schema(
       default: 5,
       min: [1, 'Rating must be above or equal 1'],
       max: [10, 'Rating must be below or equal 10'],
+      set: x => Math.round(x * 10) / 10,
     },
     ratingsQuantity: {
       type: Number,
