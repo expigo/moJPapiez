@@ -29,16 +29,16 @@ const userSchema = new mongoose.Schema({
     minLength: 8,
     select: false,
   },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please confirm your password'],
-    validate: {
-      validator: function (providedPass) {
-        return providedPass == this.password
-      },
-      message: 'Passwords do not match!',
-    },
-  },
+  // passwordConfirm: {
+  //   type: String,
+  //   required: [true, 'Please confirm your password'],
+  //   validate: {
+  //     validator: function (providedPass) {
+  //       return providedPass == this.password
+  //     },
+  //     message: 'Passwords do not match!',
+  //   },
+  // },
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
@@ -49,17 +49,17 @@ const userSchema = new mongoose.Schema({
   },
 })
 
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
-    return next()
-  }
+// userSchema.pre('save', async function (next) {
+//   if (!this.isModified('password')) {
+//     return next()
+//   }
 
-  this.password = await bcrypt.hash(this.password, 12)
+//   this.password = await bcrypt.hash(this.password, 12)
 
-  this.passwordConfirm = undefined
+//   this.passwordConfirm = undefined
 
-  next()
-})
+//   next()
+// })
 
 userSchema.pre('save', function (next) {
   if (!this.isModified('password') || this.isNew) return next()

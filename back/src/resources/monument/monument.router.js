@@ -14,6 +14,11 @@ router
 router.get('/stats', controller.getMonumentsStats)
 
 router
+  .route('/within/:distance/center/:latlong')
+  .get(controller.getMonumentsWithin)
+router.route('/distances/:latlong').get(controller.getDistances)
+
+router
   .route('/:id')
   .get(controller.getMonument)
   .patch(controller.updateMonument)

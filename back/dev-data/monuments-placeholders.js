@@ -77,17 +77,17 @@ function getMonuments(ratingsMap) {
           : 'painting',
       imageCover: `monument-${i}-cover.jpg`,
       images: [
-        'monument-${i}-1.jpg',
-        'monument-${i}-2.jpg',
-        'monument-${i}-3.jpg',
-        'monument-${i}-4.jpg',
+        `monument-${i}-1.jpg`,
+        `monument-${i}-2.jpg`,
+        `monument-${i}-3.jpg`,
+        `monument-${i}-4.jpg`,
       ],
       ratingsAverage: ratingsMap.get(i).sum / ratingsMap.get(i).n,
       ratingsQuantity: ratingsMap.get(i).n,
       description:
         'Case felt the edge of the previous century. The Tessier-Ashpool ice shattered, peeling away from the Chinese program’s thrust, a worrying impression of solid fluidity, as though the shards of a broken mirror bent and elongated as they rotated, but it never told the correct time. The semiotics of the spherical chamber. They were dropping, losing altitude in a canyon of rainbow foliage, a lurid communal mural that completely covered the hulls of the Villsa bespeak a turning in, a denial of the bright void beyond the hulls. Its hands were holograms that altered to match the convolutions of the spherical chamber.',
       location: {
-        coordinates: [lls[i].lat, lls[i].long],
+        coordinates: [lls[i].long, lls[i].lat],
         address: addresses[i],
       },
     })

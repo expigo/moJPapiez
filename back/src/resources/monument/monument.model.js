@@ -63,6 +63,7 @@ const monumentSchema = new mongoose.Schema(
 )
 
 monumentSchema.index({ratingsAverage: 1, ratingsQuantity: 1})
+monumentSchema.index({location: '2dsphere'})
 
 monumentSchema.virtual('reviews', {
   ref: 'review',
